@@ -8,5 +8,6 @@ import { Patient, PatientSchema } from './schemas/patient.schema';
   imports: [MongooseModule.forFeature([{ name: Patient.name, schema: PatientSchema }])],
   controllers: [PatientController],
   providers: [PatientService],
+  exports: [PatientService],
 })
 export class PatientModule {}

@@ -7,6 +7,7 @@ import { PatientModule } from './patients/patient.module';
 
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
+import { DiagnosisModule } from './diagnosis/diagnosis.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { AuthModule } from './auth/auth.module';
       isGlobal: true,  // Ці змінні будуть доступні по всьому проекту
     }),
     AuthModule,
+    DiagnosisModule
   ],
   controllers: [AppController],
   providers: [AppService],
