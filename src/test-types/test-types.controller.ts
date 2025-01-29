@@ -1,11 +1,14 @@
-import { Controller, Get, Post, Put, Delete, Body, Param, Res, HttpStatus, NotFoundException } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse, ApiParam } from '@nestjs/swagger'; // Імпортуємо необхідні декоратори
+import { Controller, Get, Post, Put, Delete, Body, Param, Res, HttpStatus, NotFoundException, UseGuards } from '@nestjs/common';
+import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiBearerAuth } from '@nestjs/swagger'; // Імпортуємо необхідні декоратори
 import { TestTypesService } from './test-types.service';
 import { CreateTestTypeDto } from './dto/create-test-type.dto';
 import { TestType } from './test-type.interface';
+import { JwtAuthGuard } from 'src/auth/auth.guard';
 
 @ApiTags('test-types') // Тег для групування
 @Controller('test-types')
+@UseGuards(JwtAuthGuard)
+@ApiBearerAuth()
 export class TestTypesController {
     constructor(private readonly testTypesService: TestTypesService) {}
     

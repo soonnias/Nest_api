@@ -21,7 +21,7 @@ export class Patient {
   @Prop({ unique: true, sparse: true })
   email?: string;
 
-  @Prop({ required: true, select: false }) // Ховаємо пароль при запитах
+  @Prop({ required: true}) // Ховаємо пароль при запитах  select: false
   password: string;
 
   @Prop({ enum: ['user', 'admin'], default: 'user' })

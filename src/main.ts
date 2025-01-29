@@ -11,6 +11,7 @@ async function bootstrap() {
     .setTitle('Nest API')
     .setDescription('API by Soonnias')
     .setVersion('1.0')
+    .addBearerAuth()
     .build();
 
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }));
