@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, HttpStatus, Res, UsePipes, ValidationPipe, NotFoundException, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, HttpStatus, Res, UsePipes, ValidationPipe, NotFoundException, UseGuards, BadRequestException } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiBearerAuth } from '@nestjs/swagger';
 import { PatientService } from './patient.service';
 import { CreatePatientDto } from './dto/create-patient.dto';
@@ -6,8 +6,8 @@ import { JwtAuthGuard } from 'src/auth/auth.guard';
 
 @ApiTags('patients')
 @Controller('patients')
-@UseGuards(JwtAuthGuard)
-@ApiBearerAuth()
+/*@UseGuards(JwtAuthGuard)
+@ApiBearerAuth()*/
 export class PatientController {
   constructor(private readonly patientService: PatientService) {}
 
@@ -45,6 +45,15 @@ export class PatientController {
         throw new NotFoundException('Patient not found');
     }
   }
+
+  @Get('search/:phoneNumber')
+  @ApiOperation({ summary: 'Знайти пацієнтів за номером' })
+  @ApiResponse({ status: 200, description: 'Пацієнти знайдені' })
+  @ApiResponse({ status: 404, description: 'Пацієнтів не знайдено' })
+  async getByPhone(@Param('phoneNumber') phoneNumber: string) {
+    return await this.patientService.getPatientsByPhone(phoneNumber);
+  }
+  
 
   @Delete(':id')
   @ApiOperation({ summary: 'Видалити пацієнта за ID' })

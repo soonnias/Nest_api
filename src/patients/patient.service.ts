@@ -45,6 +45,19 @@ export class PatientService {
     return patient;
   }
 
+  async getPatientsByPhone(phoneNumber: string): Promise<Patient[]> {
+    const patients = await this.patientModel
+      .find({ phoneNumber: { $regex: phoneNumber, $options: 'i' } }) // "i" - не залежить від регістру
+      .exec();
+  
+    if (!patients.length) {
+      throw new NotFoundException(`No patients found with phone number containing "${phoneNumber}"`);
+    }
+  
+    return patients;
+  }
+  
+
   async deletePatient(id: string): Promise<{ message: string }> {
     const deleted = await this.patientModel.findByIdAndDelete(id).exec();
     if (!deleted) {

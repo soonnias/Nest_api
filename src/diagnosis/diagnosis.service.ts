@@ -27,21 +27,22 @@ export class DiagnosisService {
 
 
   async findByPatientId(patientId: Types.ObjectId): Promise<Diagnosis[]> {
-    return this.diagnosisModel.find({ patientId }).exec();
+    return this.diagnosisModel.find({ patientId }).populate('patientId').exec();
   }
 
   async findById(id: string): Promise<Diagnosis> {
     const objectId = new Types.ObjectId(id);
-    const diagnosis = await this.diagnosisModel.findById(objectId).exec();
+    const diagnosis = await this.diagnosisModel.findById(objectId).populate('patientId').exec();
     if (!diagnosis) {
       throw new NotFoundException(`Diagnosis with id ${id} not found`);
     }
     return diagnosis;
   }
   
-    async getAllDiagnosis(): Promise<Diagnosis[]> {
-        return this.diagnosisModel.find().exec();
+      async getAllDiagnosis(): Promise<Diagnosis[]> {
+        return this.diagnosisModel.find().populate('patientId').exec();
     }
+
   
     async updateDescription(diagnosisId: string, description: string): Promise<Diagnosis> {
         const diagnosis = await this.diagnosisModel.findById(diagnosisId);

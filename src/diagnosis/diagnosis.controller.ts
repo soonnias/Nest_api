@@ -49,15 +49,12 @@ export class DiagnosisController {
   @ApiParam({ name: 'patientId', description: 'Patient ID' })
   @ApiResponse({ status: 200, description: 'Діагнози знайдено' })
   async getByPatientId(@Param('patientId') patientId: string) {
-   
-    // Перевірка існування пацієнта
     try{
         const patientExists = await this.patientService.getPatientById(patientId);
         }
     catch {
         throw new NotFoundException('Patient not found');
     }
-        // Конвертуємо string у ObjectId
     const patientObjectId = new Types.ObjectId(patientId);
 
     return await this.diagnosisService.findByPatientId(patientObjectId);
@@ -73,7 +70,7 @@ export class DiagnosisController {
     @Body() updateDto: UpdateDiagnosisDto,
   ) {
     try{
-    const diagnosis = await this.diagnosisService.findById(id);
+        const diagnosis = await this.diagnosisService.findById(id);
     }
     catch{
       throw new NotFoundException('Diagnosis not found');

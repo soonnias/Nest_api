@@ -8,5 +8,6 @@ import { TestTypeSchema } from './schemas/test-type.schema';
   imports: [MongooseModule.forFeature([{ name: 'TestType', schema: TestTypeSchema }])],
   controllers: [TestTypesController],
   providers: [TestTypesService],
+  exports: [TestTypesService, MongooseModule],
 })
 export class TestTypesModule {}
