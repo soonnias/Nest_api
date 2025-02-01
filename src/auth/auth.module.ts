@@ -9,10 +9,10 @@ import { AuthController } from './auth.controller';
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: Patient.name, schema: PatientSchema }]),
-    ConfigModule.forRoot(),  // Завантажуємо змінні середовища
+    ConfigModule.forRoot(),
   ],
   providers: [AuthService, JwtStrategy],
   exports: [AuthService],
-  controllers: [AuthController],  // Якщо ви хочете створити контролер для auth
+  controllers: [AuthController],
 })
 export class AuthModule {}

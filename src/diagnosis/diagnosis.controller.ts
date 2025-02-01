@@ -10,8 +10,8 @@ import { UpdateDiagnosisDto } from './dto/update-diagnosis.dto';
 
 @ApiTags('diagnosis')
 @Controller('diagnosis')
-/*@UseGuards(JwtAuthGuard)
-@ApiBearerAuth()*/
+@UseGuards(JwtAuthGuard)
+@ApiBearerAuth()
 export class DiagnosisController {
   constructor(
     private readonly diagnosisService: DiagnosisService,
@@ -24,7 +24,6 @@ export class DiagnosisController {
   @ApiResponse({ status: 404, description: 'Не знайдено пацієнта' })
   async create(@Body() createDiagnosisDto: CreateDiagnosisDto) {
     //const patientIdObjectId = new Types.ObjectId(createDiagnosisDto.patientId);
-
     try{
         const patientExists = await this.patientService.getPatientById(createDiagnosisDto.patientId);
     }

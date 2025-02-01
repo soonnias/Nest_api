@@ -1,4 +1,3 @@
-// auth.controller.ts
 import { Controller, Post, Body, Res, HttpStatus, UsePipes, ValidationPipe } from '@nestjs/common';
 
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';

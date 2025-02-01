@@ -47,7 +47,6 @@ export class AuthService {
     const payload = { id: patient.phoneNumber, role: patient.role };
     const jwtSecret = this.configService.get<string>('JWT_SECRET');
 
-    // Перевірка, чи є значення для JWT_SECRET
     if (!jwtSecret) {
       throw new Error('JWT_SECRET is not defined in environment variables');
     }
@@ -75,7 +74,6 @@ export class AuthService {
       throw new UnauthorizedException('Invalid credentials');
     }
 
-    // Створення JWT токену
     const token = this.createJwtToken(patient);
     return { token };
   }

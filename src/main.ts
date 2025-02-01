@@ -3,6 +3,10 @@ import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
 
+import { existsSync, mkdirSync } from 'fs';
+import { join } from 'path';
+
+
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.enableCors();
@@ -15,6 +19,10 @@ async function bootstrap() {
     .build();
 
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }));
+
+  if (!existsSync(join(__dirname, '..', 'uploads'))) {
+    mkdirSync(join(__dirname, '..', 'uploads'));
+  }
 
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);

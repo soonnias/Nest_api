@@ -27,7 +27,7 @@ export class PatientService {
 
     const patient = new this.patientModel({
         ...createPatientDto,
-        password: hashedPassword, // Зберігаємо хешований пароль
+        password: hashedPassword,
     });
 
     return patient.save();

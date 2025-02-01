@@ -20,6 +20,9 @@ export class MedicalTest extends Document {
 
   @Prop({ type: String, required: false })
   recommendations?: string;
+
+  @Prop({ type: String, required: false })
+  filePath?: string;
 }
 
 export const MedicalTestSchema = SchemaFactory.createForClass(MedicalTest);

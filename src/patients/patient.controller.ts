@@ -6,8 +6,8 @@ import { JwtAuthGuard } from 'src/auth/auth.guard';
 
 @ApiTags('patients')
 @Controller('patients')
-/*@UseGuards(JwtAuthGuard)
-@ApiBearerAuth()*/
+@UseGuards(JwtAuthGuard)
+@ApiBearerAuth()
 export class PatientController {
   constructor(private readonly patientService: PatientService) {}
 

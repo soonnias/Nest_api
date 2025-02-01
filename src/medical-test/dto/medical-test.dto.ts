@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsString, IsNotEmpty, IsDateString, IsOptional } from 'class-validator';
-import { Types } from 'mongoose';
+import { Express } from 'express';
 
 export class CreateMedicalTestDto {
   @IsString()
@@ -28,4 +28,9 @@ export class UpdateMedicalTestDto {
   @IsOptional()
   @ApiProperty({ description: 'Рекомендації' })
   recommendations?: string;
+
+  @IsOptional()
+  //@ApiProperty({ description: 'Шлях до збереженого файлу' })
+  filePath?: string;
+
 }

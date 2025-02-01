@@ -54,7 +54,4 @@ export class DiagnosisService {
         
         return diagnosis.save();
       }
-      
-
-
 }

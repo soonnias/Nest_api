@@ -3,6 +3,8 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model, ObjectId, Types, Schema } from 'mongoose';
 import { CreateMedicalTestDto, UpdateMedicalTestDto } from './dto/medical-test.dto';
 import { MedicalTest } from './schemas/medical-test.schema';
+import { join } from 'path';
+import { existsSync, mkdirSync, writeFileSync } from 'fs';
 
 
 @Injectable()
@@ -57,18 +59,66 @@ export class MedicalTestService {
     return medicalTest;
   }
 
-  async update(id: string, updateDto: UpdateMedicalTestDto): Promise<MedicalTest> {
-    const updatedTest = await this.medicalTestModel.findByIdAndUpdate(
-      id,
-      { ...updateDto, status: 'Виконано' },
-      { new: true }
-    );
+  // async update(id: string, updateDto: UpdateMedicalTestDto): Promise<MedicalTest> {
+  //   const updatedTest = await this.medicalTestModel.findByIdAndUpdate(
+  //     id,
+  //     { ...updateDto, status: 'Виконано' },
+  //     { new: true }
+  //   );
   
-    if (!updatedTest) {
-      throw new NotFoundException('Тест не знайдено');
-    }
+  //   if (!updatedTest) {
+  //     throw new NotFoundException('Тест не знайдено');
+  //   }
   
-    return updatedTest;
+  //   return updatedTest;
+  // }
+
+  async update(id: string, updateDto: UpdateMedicalTestDto, file?: Express.Multer.File): Promise<MedicalTest> {
+      console.log("ID TEST", id);
+      
+      if (!Types.ObjectId.isValid(id)) {
+        throw new NotFoundException('Невірний формат ObjectId');
+      }
+  
+      const test = await this.medicalTestModel.findById(new Types.ObjectId(id));
+  
+      if (!test) {
+        throw new NotFoundException('Тест не знайдено');
+      }
+  
+      // Якщо є файл, зберігаємо його
+      if (file && file.buffer) {
+        try {
+          // Використовуємо process.cwd() для отримання кореневої директорії проекту
+          const uploadDir = join(process.cwd(), 'uploads');
+          
+          if (!existsSync(uploadDir)) {
+            mkdirSync(uploadDir, { recursive: true });
+          }
+          
+          const fileName = `${Date.now()}-${file.originalname}`;
+          const filePath = join(uploadDir, fileName);
+          
+          writeFileSync(filePath, file.buffer);
+          
+          updateDto.filePath = filePath;
+        } catch (error) {
+          console.error('Помилка збереження файлу:', error);
+          throw new NotFoundException(`Помилка при збереженні файлу: ${error.message}`);
+        }
+      }
+      
+      const updatedTest = await this.medicalTestModel.findByIdAndUpdate(
+        id,
+        { ...updateDto, status: 'Виконано' },
+        { new: true },
+      );
+  
+      if (!updatedTest) {
+        throw new NotFoundException('Тест не знайдено');
+      }
+  
+      return updatedTest;
   }
   
 

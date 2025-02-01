@@ -7,4 +7,5 @@ export interface MedicalTest {
   status: 'В обробці' | 'Виконано';
   result?: string;
   recommendations?: string;
+  filePath?: string;
 }

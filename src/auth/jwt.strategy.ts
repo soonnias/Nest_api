@@ -20,7 +20,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 
   async validate(payload: JwtPayload) {
     console.log('JWT Payload:', payload); 
-
     const patient = await this.patientModel.findOne({ phoneNumber: payload.id });
 
     console.log("VALIDATE PATIENT", patient);

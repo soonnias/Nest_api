@@ -1,11 +1,11 @@
 import { Controller, Get, Post, Put, Delete, Body, Param, Res, HttpStatus, NotFoundException, UseGuards } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiBearerAuth } from '@nestjs/swagger'; // Імпортуємо необхідні декоратори
+import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiBearerAuth } from '@nestjs/swagger';
 import { TestTypesService } from './test-types.service';
 import { CreateTestTypeDto } from './dto/create-test-type.dto';
 import { TestType } from './test-type.interface';
 import { JwtAuthGuard } from 'src/auth/auth.guard';
 
-@ApiTags('test-types') // Тег для групування
+@ApiTags('test-types')
 @Controller('test-types')
 @UseGuards(JwtAuthGuard)
 @ApiBearerAuth()
@@ -13,7 +13,7 @@ export class TestTypesController {
     constructor(private readonly testTypesService: TestTypesService) {}
     
     @Get()
-    @ApiOperation({ summary: 'Отримати всі типи тестів' }) // Опис операції
+    @ApiOperation({ summary: 'Отримати всі типи тестів' })
     @ApiResponse({ status: 200, description: 'Успішно отримано список типів тестів.' })
     async getAll(@Res() res) {
         const testTypes = await this.testTypesService.getAllTestTypes();
@@ -46,7 +46,7 @@ export class TestTypesController {
                 testType: newTestType,
             });
         } catch (error) {
-            if (error.code === 11000) {  // Код помилки дублювання у MongoDB
+            if (error.code === 11000) { 
                 return res.status(HttpStatus.BAD_REQUEST).json({
                     message: 'Test type with this name already exists',
                 });
